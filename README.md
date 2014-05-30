@@ -1,6 +1,7 @@
 # commitmeter
 
-FIXME
+CommitMeter -- demo service which collect information about all commits in repos 
+of some organization and show statistics
 
 ## Prerequisites
 
@@ -16,4 +17,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2014 FIXME
+Copyleft © 2014
