@@ -4,7 +4,10 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.1.6"]
                  [hiccup "1.0.5"]
-                 [ring-server "0.3.1"]]
+                 [ring-server "0.3.1"]
+                 [clj-http "0.9.2"]
+                 [cheshire "5.2.0"]
+                  ]
   :plugins [[lein-ring "0.8.10"]]
   :ring {:handler commitmeter.handler/app
          :init commitmeter.handler/init
