@@ -2,10 +2,10 @@
   (:require
     [clj-http.client :as client]
     [cheshire.core :as json]
+    [commitmeter.secret :as secret]
 
     ))
 
-(def token "5cd629e62e8e51dc1221b2271e37fccff4add1e4")
 (def api-url "https://api.github.com")
 (def token-header {:autorization (str "token " token)})
 
