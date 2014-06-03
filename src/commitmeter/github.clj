@@ -7,7 +7,8 @@
     ))
 
 (def api-url "https://api.github.com")
-(def token-header {:autorization (str "token " token)})
+(def token-header {:authorization (secret/app-token)})
+
 
 (defn api [end-point]
   (str api-url end-point))
@@ -22,6 +23,7 @@
   (let
     [uri (org "repos_url")]
     (-> uri
-        (client/get {:header token-header})
+        (client/get {:headers token-header})
         :body
-        json/parse-string)))
+        (json/parse-string)
+        )))
