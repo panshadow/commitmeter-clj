@@ -25,5 +25,17 @@
     (-> uri
         (client/get {:headers token-header})
         :body
-        (json/parse-string)
+        (json/parse-string true)
         )))
+
+(defn fetch-pages [url]
+  (loop [link url items (list)]
+    (let
+      [resp (client/get url {:headers token-header} :debug)
+       next-url (get-in resp [:links :next :href])
+       page (-> resp :body (json/parse-string true))
+       ]
+
+      (if (nil?  next-url)
+        (concat items page)
+        (recur next-url (concat items page))))))
