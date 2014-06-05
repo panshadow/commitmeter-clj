@@ -40,3 +40,14 @@
         (recur next-url page)))))
 
 
+(defn lazy-fetch-pages [url]
+  (let
+    [resp (client/get url {:headers token-header})
+     next-link (get-in resp [:links :next :href])
+     items (json-body resp)]
+
+    (concat
+      items
+      (if (nil? next-link)
+        next-link
+        (lazy-seq (lazy-fetch-pages next-link))))))
