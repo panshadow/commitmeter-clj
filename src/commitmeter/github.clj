@@ -31,11 +31,12 @@
 (defn fetch-pages [url]
   (loop [link url items (list)]
     (let
-      [resp (client/get url {:headers token-header} :debug)
+      [resp (client/get link {:headers token-header})
        next-url (get-in resp [:links :next :href])
-       page (-> resp :body (json/parse-string true))
-       ]
+       page (concat items (-> resp :body (json/parse-string true)))]
 
       (if (nil?  next-url)
-        (concat items page)
-        (recur next-url (concat items page))))))
+        page
+        (recur next-url page)))))
+
+
