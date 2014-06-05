@@ -28,12 +28,17 @@
         (json/parse-string true)
         )))
 
+(defn json-body [resp]
+  (if (= (:status resp) 200)
+    (-> resp :body (json/parse-string true))
+    '()))
+
 (defn fetch-pages [url]
   (loop [link url items (list)]
     (let
       [resp (client/get link {:headers token-header})
        next-url (get-in resp [:links :next :href])
-       page (concat items (-> resp :body (json/parse-string true)))]
+       page (concat items (json-body resp))]
 
       (if (nil?  next-url)
         page
