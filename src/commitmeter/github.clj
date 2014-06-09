@@ -13,11 +13,21 @@
 (defn api [end-point]
   (str api-url end-point))
 
+(defn json-body [resp]
+  (if (= (:status resp) 200)
+    (-> resp :body (json/parse-string true))
+    '()))
+
+
+;------------------------------------
+
+
 (defn get-org [name]
   (let
-    [uri (str "/orgs/" name)]
-    (json/parse-string (:body (client/get (api uri) {:headers token-header})))
-    ))
+    [org-url (api (str "/orgs/" name))]
+    (-> org-url
+        (client/get {:headers token-header})
+        (json-body))))
 
 (defn get-repos [org]
   (let
@@ -28,10 +38,6 @@
         (json/parse-string true)
         )))
 
-(defn json-body [resp]
-  (if (= (:status resp) 200)
-    (-> resp :body (json/parse-string true))
-    '()))
 
 (defn fetch-pages [url]
   (loop [link url items (list)]
