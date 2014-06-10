@@ -19,6 +19,19 @@
     '()))
 
 
+(defn urlc
+  ([url-tpl] (urlc url-tpl {}))
+  ([url-tpl params]
+  (let
+    [pttrn (re-pattern "\\{\\/([^\\}]+)\\}")
+    replacer (fn [item]
+                (let
+                  [param (params (second item))]
+                  (if (nil? param)
+                    ""
+                    (str "/" param)
+                    )))]
+    (clojure.string/replace url-tpl pttrn replacer))))
 ;------------------------------------
 
 
